@@ -56,3 +56,34 @@ def update_abonnement(doctor_data):
     else:
         # Handle errors
         raise Exception(f"Failed to update abonnement: {response.status_code}, {response.text}")
+
+
+def get_response_model(context,question):
+    url=f"{BASE_URL}/responsechatbot"
+    
+    data = {
+    "context": context,
+    "question":question
+    }
+    response=requests.post(url,json=data)
+    if response.status_code==200:
+        return response.json()
+    else: 
+        #Handle errors
+        raise Exception(f"Failed to retrieve the response from the model.Something wrong happened!")
+    
+
+def get_all_reports_from_doctor(doctor_id):
+    url = f"{BASE_URL}/doctor/reports/{doctor_id}"
+    
+    # Send a GET request to the API
+    response = requests.get(url)
+    
+    # Check for a successful response
+    if response.status_code == 200:
+        return response.json()
+    else:
+        # Handle errors and provide more context
+        raise Exception(f"Failed to retrieve the report's doctor")
+
+

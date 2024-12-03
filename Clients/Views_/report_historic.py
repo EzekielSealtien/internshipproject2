@@ -9,12 +9,12 @@ def show_reports_historic():
     <style>
     /* Overall Background */
     .stApp {
-        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        background: linear-gradient(135deg, #d3d3d3, #a9a9a9); /* Light gray to dark gray gradient */
         font-family: 'Arial', sans-serif;
     }
     
-    /* Patient Frame */
-    .patient-frame {
+    /* Frames */
+    .frame {
         border: 1px solid #ccc;
         border-radius: 15px;
         padding: 20px;
@@ -23,35 +23,44 @@ def show_reports_historic():
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease-in-out;
     }
-    .patient-frame:hover {
+    .frame:hover {
         transform: scale(1.02);
         box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     }
 
     /* Buttons */
-    .profile-button {
-        background-color: #4CAF50; /* Green */
+    .custom-button {
+        background-color: #4CAF50;
         color: white;
         padding: 10px 15px;
         border: none;
         border-radius: 5px;
         font-size: 16px;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        transition: background-color 0.3s ease, transform 0.2s;
+        width: 100%;
     }
-    .profile-button:hover {
-        background-color: #45a049; /* Darker green */
+    .custom-button:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+    }
+    .danger-button {
+        background-color: #e74c3c;
+    }
+    .danger-button:hover {
+        background-color: #c0392b;
     }
 
     /* Header Styling */
-    .stMarkdown h1, h2, h3 {
-        color: #333;
+    .header {
         text-align: center;
+        color: #333;
+        font-size: 2rem;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* Text Inputs */
-    input[type="text"], input[type="number"] {
+    /* Input Fields */
+    input[type="text"], textarea, input[type="file"] {
         width: 100%;
         padding: 10px;
         margin: 8px 0;
@@ -60,11 +69,12 @@ def show_reports_historic():
         box-sizing: border-box;
         font-size: 14px;
     }
+
     </style>
     """, unsafe_allow_html=True)
 
     user_info = st.session_state.get("user_info", None)
-
+    st.header("Medical reports")
     if not user_info:
         st.error("You are not logged in.")
         if st.button("Log in"):
@@ -74,7 +84,6 @@ def show_reports_historic():
         
         
     reports = user_info.get('reports')
-    print(reports)
     if not reports:
         st.info("You do not have any reports !")
     else:

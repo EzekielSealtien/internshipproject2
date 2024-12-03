@@ -1,12 +1,24 @@
-import requests
+import streamlit as st
 
-API_URL = "https://api-inference.huggingface.co/models/blaze999/Medical-NER"
-headers = {"Authorization": "Bearer hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
+import streamlit as st
 
-def query(payload):
-	response = requests.post(API_URL, headers=headers, json=payload)
-	return response.json()
-	
-output = query({
-	"inputs": "My name is Sarah Jessica Parker but you can call me Jessica",
-})
+# Custom CSS to move the sidebar to the right
+st.markdown("""
+    <style>
+        /* Move the sidebar to the right */
+        .stSidebar {
+            float: right;
+        }
+        .stApp {
+            direction: rtl;
+        }
+        .css-1d391kg { /* Adjust the content alignment */
+            direction: ltr;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+with st.sidebar:
+    st.write("This is a right-aligned sidebar!")
+
+st.write("Main content goes here.")

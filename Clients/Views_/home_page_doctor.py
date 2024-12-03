@@ -2,6 +2,11 @@ import streamlit as st
 from Clients.Functions_ import talk_with_server as tws
 from Clients.Functions_ import retrieve_content as r_c
 from Clients.Functions_ import CNN
+from langchain_core.messages import AIMessage, HumanMessage
+from langchain_openai import ChatOpenAI
+from langchain_openai.chat_models import ChatOpenAI
+
+
 
 def show_home_page_doctor():
     # Apply custom styles
@@ -9,7 +14,7 @@ def show_home_page_doctor():
     <style>
     /* Overall Background */
     .stApp {
-        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        background: linear-gradient(135deg, #d3d3d3, #a9a9a9); /* Light gray to dark gray gradient */
         font-family: 'Arial', sans-serif;
     }
     
@@ -79,7 +84,7 @@ def show_home_page_doctor():
         st.session_state.response_model=""
     if "report_data" not in st.session_state:
         st.session_state.report_data={}
-    
+
     
     # User Information
     user_info = st.session_state.get("user_info", None)
@@ -90,7 +95,18 @@ def show_home_page_doctor():
     # Initialize session state variables
     if "rapport_medical" not in st.session_state:
         st.session_state.rapport_medical = ""
+        
+    reports_raw=user_info.get('reports')
+    
+    #Transform reports in text
+    text1=""
+    for report in reports_raw:
+        chaine=f"report's content of {report['title']} :{report['content']}"
+        text1+=chaine
+    if "context" not in st.session_state:
+        st.session_state.context=text1
 
+    
     # Welcome Header
     st.markdown(f"<div class='header'>Welcome, {user_info['name']}</div>", unsafe_allow_html=True)
 
@@ -164,10 +180,67 @@ def show_home_page_doctor():
             }
             response_report_sent = tws.create_report(st.session_state.report_data)
 
+            # get all the reports for a doctor
+            all_reports=tws.get_all_reports_from_doctor(user_info.get("doctor_id"))
+
+            if all_reports:    
+                #Transform reports in text
+                text=""
+                for report in all_reports:
+                    chaine=f"report's content of {report['title']} :{report['content']}"
+                    text+=chaine
+            
+                st.session_state.context=text
+                
             if response_report_sent:
                 st.toast("Report saved successfully!")
-                user_info["reports"].append(st.session_state.report_data)
+                st.session_state["user_info"]["reports"].append(st.session_state.report_data)
                 st.session_state.check=False
                 st.rerun()
 
     st.markdown("</div>", unsafe_allow_html=True)
+
+    current_subscription = user_info['abonnement'] if user_info else "basic"
+
+
+    #Si jamais l'utilisateur a un compte premuim
+    if current_subscription=="premium":
+        with st.sidebar:
+            # Ensure chat history is initialized
+            if "chat_history" not in st.session_state:
+                st.session_state.chat_history = [
+                    AIMessage(content="Hey there, I am Cassandra. How can I be of service to you?")
+                ]
+
+            # Display conversation messages in a container
+            chat_container = st.container()
+
+            # User input box at the bottom
+            user_query = st.chat_input("How can Cassandra help?")
+
+            # Render chat history inside the container
+            with chat_container:
+                for message in st.session_state.chat_history:
+                    if isinstance(message, AIMessage):
+                        with st.chat_message("AI"):
+                            st.write(message.content)
+                    elif isinstance(message, HumanMessage):
+                        with st.chat_message("Human"):
+                            st.write(message.content)
+
+            # Handle new user input
+            if user_query is not None and user_query != "":
+                # Append user message to chat history
+                st.session_state.chat_history.append(HumanMessage(content=user_query))
+                with chat_container:
+                    with st.chat_message("Human"):
+                        st.markdown(user_query)
+
+                # Generate AI response and display it
+                with chat_container:
+                    with st.chat_message("AI"):
+                        result = tws.get_response_model(st.session_state.context, user_query)
+                        st.session_state.chat_history.append(AIMessage(content=result))
+                        st.markdown(result)
+
+                    

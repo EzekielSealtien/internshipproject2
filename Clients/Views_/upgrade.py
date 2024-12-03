@@ -114,8 +114,8 @@ def upgrade():
                 st.session_state.response['abonnement']="premium"
                 st.session_state["user_info"]["abonnement"] = "premium"
                 st.rerun()
-            if st.session_state.response['abonnement']=='premium':
-                st.toast("Subscription successfully upgraded!")
+            if st.session_state.response['abonnement']=='basic':
+                st.toast("Subscription successfully downgraded!")
 
 
 
@@ -127,11 +127,11 @@ def upgrade():
                 }
                 response = tws.update_abonnement(doctor_data)
                 st.session_state["user_info"]["abonnement"] = "basic"
-                st.session_state.response['abonnement']=='basic'
+                st.session_state.response['abonnement']='basic'
 
                 st.rerun()
-            if st.session_state.response['abonnement']=='basic':
-                st.toast("Subscription successfully downgraded!")
+            if st.session_state.response['abonnement']=='premium':
+                st.toast("Subscription successfully  upgraded!")
 
 
 
