@@ -85,6 +85,6 @@ def show_signup_doctor_page():
     # Footer Note
     st.markdown("""
         <div style="text-align: center; margin-top: 20px;">
-            Already have an account? <a href="?page=login_doctor" style="color: #007bff; text-decoration: none;">Login here</a>
+            Already have an account? <a href="" style="color: #007bff; text-decoration: none;">Login here</a>
         </div>
     """, unsafe_allow_html=True)
