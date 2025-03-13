@@ -88,9 +88,7 @@ def show_home_page_doctor():
     
     # User Information
     user_info = st.session_state.get("user_info", None)
-    if not user_info:
-        st.error("You are not logged in.")
-        st.stop()
+
 
     # Initialize session state variables
     if "rapport_medical" not in st.session_state:
@@ -131,7 +129,7 @@ def show_home_page_doctor():
                 st.session_state.clear()
                 st.session_state["is_logged_in"] = False
                 st.success("You are now logged out.")
-                st.query_params.update(page="login_doctor")
+                st.query_params.update(page="login_doctor") 
                 st.rerun()
 
     # File Upload and Report Input Section
@@ -217,7 +215,7 @@ def show_home_page_doctor():
             # Ensure chat history is initialized
             if "chat_history" not in st.session_state:
                 st.session_state.chat_history = [
-                    AIMessage(content="Hey there, I am Cassandra. How can I be of service to you?")
+                    AIMessage(content="Hey there, I am Cassandra. How can i help you?")
                 ]
 
             # Display conversation messages in a container
