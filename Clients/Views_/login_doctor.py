@@ -25,7 +25,7 @@ def show_login_doctor_page():
                 st.success("Login successful!")
                 st.session_state["email"] = email
                 st.session_state["user_info"] = user_info
-                st.query_params['page'] = "home_page_doctor"
+                st.session_state.page = "home_page_doctor"
                 st.rerun()
             else:
                 st.error("Invalid credentials. Please try again.")
@@ -35,5 +35,6 @@ def show_login_doctor_page():
     col1, col2 = st.columns([6, 4])
     with col2:
         if st.button("Sign up"):
-            st.query_params['page'] = 'signup_doctor'
+            st.session_state.page = "signup_doctor"
+
             st.rerun()

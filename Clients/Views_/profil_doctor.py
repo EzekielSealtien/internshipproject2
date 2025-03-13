@@ -97,5 +97,6 @@ def show_profile_doctor_page():
     col11, col21, col31 = st.columns([1, 2, 1])
     with col21:
         if st.button("Return to Home Page", key="return_button"):
-            st.query_params.update(page="home_page_doctor")
+            st.session_state.page = "home_page_doctor"
+
             st.rerun()

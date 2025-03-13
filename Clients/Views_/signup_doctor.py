@@ -73,7 +73,8 @@ def show_signup_doctor_page():
                 if "doctor_id" in response:
                     st.success("Registration successful! Redirecting to login...")
                     st.session_state["email"] = email
-                    st.query_params.update(page="login_doctor")
+                    st.session_state.page = "login_doctor"
+
                     st.rerun()
                 else:
                     st.markdown("<div class='error-message'>Registration failed. Please try again.</div>", unsafe_allow_html=True)

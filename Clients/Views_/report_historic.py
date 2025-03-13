@@ -96,5 +96,5 @@ def show_reports_historic():
     # Return to Home Page Button
     st.markdown("<hr>", unsafe_allow_html=True)
     if st.button("Return to Home Page"):
-        st.query_params.update(page="home_page_doctor")
+        st.session_state.page = "home_page_doctor"
         st.rerun()
