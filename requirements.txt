@@ -13,3 +13,6 @@ transformers==4.46.3
 uvicorn==0.32.0
 langchain-core==0.3.21
 langchain-openai==0.2.10
+
+langchain-core
+langchain-openai
