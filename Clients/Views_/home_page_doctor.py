@@ -101,12 +101,11 @@ def show_home_page_doctor():
     #Transform reports in text
     text1=""
     for report in reports_raw:
-        chaine=f"Report of {report['title']} : Start of {report['title']}'s report  /// : {report['content']} . End of {report['title']}'s report \\\."
+        chaine=f"report's content of {report['title']} :{report['content']}"
         text1+=chaine
     if "context" not in st.session_state:
         st.session_state.context=text1
 
-    
     
     # Welcome Header
     st.markdown(f"<div class='header'>Welcome, {user_info['name']}</div>", unsafe_allow_html=True)
@@ -171,19 +170,17 @@ def show_home_page_doctor():
             else:
                 a=f'{key}: {response[key]}. \n'
             response_right_format=response_right_format+a+"\n"
-        
+            
         st.session_state.response_model=response_right_format
         st.markdown("<hr>", unsafe_allow_html=True)
         st.subheader("AI-Analyzed Medical Report:")
         st.session_state.check=True
     st.write(st.session_state.response_model)
-    
-    
     # Save Report Button
     if st.session_state.check:
         if st.button("Save Report", key="save_report"):
             report_name = f"{name}"
-            content=st.session_state.response_model
+            content=f"{st.session_state.response_model}"
             st.session_state.report_data = {
                 "doctor_id": user_info.get("doctor_id"),
                 "title": report_name,
@@ -198,11 +195,10 @@ def show_home_page_doctor():
                 #Transform reports in text
                 text=""
                 for report in all_reports:
-                    chaine=f"Report of {report['title']} : Start of {report['title']}'s report /// : {report['content']} End of {report['title']}'s report \\\."
+                    chaine=f"report's content of {report['title']} :{report['content']}"
                     text+=chaine
+            
                 st.session_state.context=text
-                print(st.session_state.context)
-                
                 
             if response_report_sent:
                 st.toast("Report saved successfully!")
@@ -221,7 +217,7 @@ def show_home_page_doctor():
             # Ensure chat history is initialized
             if "chat_history" not in st.session_state:
                 st.session_state.chat_history = [
-                    AIMessage(content="Hey there, I am Cassandra. How can I help you?")
+                    AIMessage(content="Hey there, I am Cassandra. How can I be of service to you?")
                 ]
 
             # Display conversation messages in a container
