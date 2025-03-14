@@ -13,5 +13,3 @@ uvicorn==0.32.0
 langchain-core
 langchain-openai
 torch==2.5.1
-torchaudio==2.5.1
-torchvision==0.20.1
