@@ -101,7 +101,7 @@ def show_home_page_doctor():
     #Transform reports in text
     text1=""
     for report in reports_raw:
-        chaine=f"Information about {report['title']} or report's content of {report['title']} :{report['content']}"
+        chaine=f"Information about {report['title']} or report's content of {report['title']} :{report['title']} is  {report['content']}"
         text1+=chaine
     if "context" not in st.session_state:
         st.session_state.context=text1
