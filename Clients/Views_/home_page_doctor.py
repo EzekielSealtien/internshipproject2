@@ -101,7 +101,7 @@ def show_home_page_doctor():
     #Transform reports in text
     text1=""
     for report in reports_raw:
-        chaine=f"Information about {report['title']} or report's content of {report['title']} :{report['title']} is  {report['content']}"
+        chaine=f"Information about {report['title']} or report's content of {report['title']} :{report['title']} is {report['content']}"
         text1+=chaine
     if "context" not in st.session_state:
         st.session_state.context=text1
@@ -159,6 +159,9 @@ def show_home_page_doctor():
     # Analyze Medical Report Button
     if st.button("Analyze Medical Report", key="analyze_report"):
         st.markdown("<hr>", unsafe_allow_html=True)
+        st.subheader("Submitted Medical Report:")
+        st.write(st.session_state.rapport_medical)
+
 
         # Call Backend to Analyze Report
         response = CNN.analyse_text(st.session_state.rapport_medical)
@@ -169,18 +172,14 @@ def show_home_page_doctor():
             else:
                 a=f'{key}: {response[key]}. \n'
             response_right_format=response_right_format+a+"\n"
-            
+        st.subheader("AI-Analyzed Medical Report:")
+
         st.session_state.response_model=response_right_format
         st.markdown("<hr>", unsafe_allow_html=True)
         st.session_state.check=True
 
-    if st.session_state.rapport_medical!="":
-        st.subheader("Submitted Medical Report:")
-        st.write(st.session_state.rapport_medical)
     
-    if st.session_state.response_model!="":
-        st.subheader("AI-Analyzed Medical Report:")
-        st.write(st.session_state.response_model)
+    st.write(st.session_state.response_model)
     # Save Report Button
     if st.session_state.check:
         if st.button("Save Report", key="save_report"):
