@@ -199,7 +199,7 @@ def show_home_page_doctor():
                 #Transform reports in text
                 text=""
                 for report in all_reports:
-                    chaine=f"Information about {report['title']} or report's content of {report['title']} :{report['content']}"
+                    chaine=f"Information about {report['title']} or report's content of {report['title']} : {report['title ']} is{report['content']}"
                     text+=chaine
             
                 st.session_state.context=text
