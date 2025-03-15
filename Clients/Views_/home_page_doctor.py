@@ -174,7 +174,7 @@ def show_home_page_doctor():
         st.session_state.check=True
     a=f"submitted Medical Report: \n {st.session_state.rapport_medical}"
     st.write(a)
-    b=f"AI-Analyzed Medical Report: \n {st.session_state.rapport_medical}"
+    b=f"AI-Analyzed Medical Report: \n {st.session_state.response_model}"
     st.write(b)
     # Save Report Button
     if st.session_state.check:
