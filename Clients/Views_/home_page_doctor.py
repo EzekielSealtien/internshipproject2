@@ -174,11 +174,13 @@ def show_home_page_doctor():
         st.markdown("<hr>", unsafe_allow_html=True)
         st.session_state.check=True
 
-    st.subheader("Submitted Medical Report:")
-    st.write(st.session_state.rapport_medical)
+    if st.session_state.rapport_medical!="":
+        st.subheader("Submitted Medical Report:")
+        st.write(st.session_state.rapport_medical)
     
-    st.subheader("AI-Analyzed Medical Report:")
-    st.write(st.session_state.response_model)
+    if st.session_state.response_model!="":
+        st.subheader("AI-Analyzed Medical Report:")
+        st.write(st.session_state.response_model)
     # Save Report Button
     if st.session_state.check:
         if st.button("Save Report", key="save_report"):
