@@ -101,7 +101,7 @@ def show_home_page_doctor():
     #Transform reports in text
     text1=""
     for report in reports_raw:
-        chaine=f"report or information of {report['title']} :{report['content']}"
+        chaine=f"report of {report['title']} :{report['content']}"
         text1+=chaine
     if "context" not in st.session_state:
         st.session_state.context=text1
@@ -170,7 +170,6 @@ def show_home_page_doctor():
             else:
                 a=f'{key}: {response[key]}. \n'
             response_right_format=response_right_format+a+"\n"
-        st.subheader("AI-Analyzed Medical Report:")
 
         st.session_state.response_model=response_right_format
         st.markdown("<hr>", unsafe_allow_html=True)
@@ -196,7 +195,7 @@ def show_home_page_doctor():
                 #Transform reports in text
                 text=""
                 for report in all_reports:
-                    chaine=f"report or information of {report['title']} :{report['content']}"
+                    chaine=f"report  of {report['title']} :{report['content']}"
                     text+=chaine
             
                 st.session_state.context=text
