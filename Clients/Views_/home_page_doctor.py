@@ -101,7 +101,7 @@ def show_home_page_doctor():
     #Transform reports in text
     text1=""
     for report in reports_raw:
-        chaine=f"Information about {report['title']} or report's content of {report['title']} :{report['title']} is {report['content']}"
+        chaine=f"report's content of {report['title']} :{report['content']}"
         text1+=chaine
     if "context" not in st.session_state:
         st.session_state.context=text1
@@ -116,23 +116,22 @@ def show_home_page_doctor():
         nav_col1, nav_col2, nav_col3, nav_col4 = st.columns(4)
         with nav_col1:
             if st.button("Profile", key="profile_button"):
-                st.session_state.page = "profil_doctor"
+                st.query_params["page"] = "profil_doctor"
                 st.rerun()
         with nav_col2:
             if st.button("My Plan", key="upgrade_plan"):
-                st.session_state.page = "upgrade"
+                st.query_params["page"] = "upgrade"
                 st.rerun()
-                
         with nav_col3:
             if st.button("Report History", key="report_history"):
-                st.session_state.page = "report_historic"
+                st.query_params["page"] = "report_historic"
                 st.rerun()
         with nav_col4:
             if st.button("🔒 Logout", key="logout_button"):
                 st.session_state.clear()
                 st.session_state["is_logged_in"] = False
                 st.success("You are now logged out.")
-                st.session_state.page = "login_doctor"
+                st.query_params.update(page="login_doctor")
                 st.rerun()
 
     # File Upload and Report Input Section
@@ -162,7 +161,6 @@ def show_home_page_doctor():
         st.subheader("Submitted Medical Report:")
         st.write(st.session_state.rapport_medical)
 
-
         # Call Backend to Analyze Report
         response = CNN.analyse_text(st.session_state.rapport_medical)
         response_right_format=""
@@ -176,15 +174,14 @@ def show_home_page_doctor():
 
         st.session_state.response_model=response_right_format
         st.markdown("<hr>", unsafe_allow_html=True)
+        st.subheader("AI-Analyzed Medical Report:")
         st.session_state.check=True
-
-    
     st.write(st.session_state.response_model)
     # Save Report Button
     if st.session_state.check:
         if st.button("Save Report", key="save_report"):
             report_name = f"{name}"
-            content=f"{st.session_state.rapport_medical}"
+            content=f"{st.session_state.response_model}"
             st.session_state.report_data = {
                 "doctor_id": user_info.get("doctor_id"),
                 "title": report_name,
@@ -199,7 +196,7 @@ def show_home_page_doctor():
                 #Transform reports in text
                 text=""
                 for report in all_reports:
-                    chaine=f"Information about {report['title']} or report's content of {report['title']} : {report['title']} is{report['content']}"
+                    chaine=f"report's content of {report['title']} :{report['content']}"
                     text+=chaine
             
                 st.session_state.context=text
@@ -221,7 +218,7 @@ def show_home_page_doctor():
             # Ensure chat history is initialized
             if "chat_history" not in st.session_state:
                 st.session_state.chat_history = [
-                    AIMessage(content="Hey there, I am Cassandra. How can i help you?")
+                    AIMessage(content="Hey there, I am Cassandra. How can I be of service to you?")
                 ]
 
             # Display conversation messages in a container
