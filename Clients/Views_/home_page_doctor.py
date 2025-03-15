@@ -160,7 +160,6 @@ def show_home_page_doctor():
     if st.button("Analyze Medical Report", key="analyze_report"):
         st.markdown("<hr>", unsafe_allow_html=True)
         st.subheader("Submitted Medical Report:")
-        st.write(st.session_state.rapport_medical)
 
         # Call Backend to Analyze Report
         response = CNN.analyse_text(st.session_state.rapport_medical)
