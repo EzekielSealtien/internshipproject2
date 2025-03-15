@@ -116,24 +116,24 @@ def show_home_page_doctor():
         nav_col1, nav_col2, nav_col3, nav_col4 = st.columns(4)
         with nav_col1:
             if st.button("Profile", key="profile_button"):
-                st.query_params["page"] = "profil_doctor"
+                st.session_state.page = "profil_doctor"
                 st.rerun()
         with nav_col2:
             if st.button("My Plan", key="upgrade_plan"):
-                st.query_params["page"] = "upgrade"
+                st.session_state.page = "upgrade"
                 st.rerun()
+                
         with nav_col3:
             if st.button("Report History", key="report_history"):
-                st.query_params["page"] = "report_historic"
+                st.session_state.page = "report_historic"
                 st.rerun()
         with nav_col4:
             if st.button("🔒 Logout", key="logout_button"):
                 st.session_state.clear()
                 st.session_state["is_logged_in"] = False
                 st.success("You are now logged out.")
-                st.query_params.update(page="login_doctor")
+                st.session_state.page = "login_doctor"
                 st.rerun()
-
     # File Upload and Report Input Section
     st.markdown("<div class='frame'>", unsafe_allow_html=True)
     st.subheader("Medical Report Analysis")
