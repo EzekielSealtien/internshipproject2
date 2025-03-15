@@ -122,6 +122,7 @@ def show_home_page_doctor():
             if st.button("My Plan", key="upgrade_plan"):
                 st.session_state.page = "upgrade"
                 st.rerun()
+                
         with nav_col3:
             if st.button("Report History", key="report_history"):
                 st.session_state.page = "report_historic"
