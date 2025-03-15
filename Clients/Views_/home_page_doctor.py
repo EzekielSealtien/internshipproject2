@@ -159,7 +159,6 @@ def show_home_page_doctor():
     # Analyze Medical Report Button
     if st.button("Analyze Medical Report", key="analyze_report"):
         st.markdown("<hr>", unsafe_allow_html=True)
-        st.subheader("Submitted Medical Report:")
 
         # Call Backend to Analyze Report
         response = CNN.analyse_text(st.session_state.rapport_medical)
@@ -173,10 +172,12 @@ def show_home_page_doctor():
             
         st.session_state.response_model=response_right_format
         st.markdown("<hr>", unsafe_allow_html=True)
-        st.subheader("AI-Analyzed Medical Report:")
         st.session_state.check=True
-        
+
+    st.subheader("Submitted Medical Report:")
     st.write(st.session_state.rapport_medical)
+    
+    st.subheader("AI-Analyzed Medical Report:")
     st.write(st.session_state.response_model)
     # Save Report Button
     if st.session_state.check:
