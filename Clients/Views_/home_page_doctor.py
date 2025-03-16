@@ -101,7 +101,7 @@ def show_home_page_doctor():
     #Transform reports in text
     text1=""
     for report in reports_raw:
-        chaine=f"report of {report['title']} :{report['content']}"
+        chaine=f"report's content of {report['title']} :{report['content']}"
         text1+=chaine
     if "context" not in st.session_state:
         st.session_state.context=text1
@@ -158,7 +158,9 @@ def show_home_page_doctor():
     # Analyze Medical Report Button
     if st.button("Analyze Medical Report", key="analyze_report"):
         st.markdown("<hr>", unsafe_allow_html=True)
-
+        st.subheader("Submitted Medical Report:")
+        st.write(st.session_state.rapport_medical)
+        
         # Call Backend to Analyze Report
         response = CNN.analyse_text(st.session_state.rapport_medical)
         response_right_format=""
@@ -170,12 +172,11 @@ def show_home_page_doctor():
             response_right_format=response_right_format+a+"\n"
 
         st.session_state.response_model=response_right_format
+
         st.markdown("<hr>", unsafe_allow_html=True)
+        st.subheader("AI-Analyzed Medical Report:")
         st.session_state.check=True
-    a=f"submitted Medical Report: \n {st.session_state.rapport_medical}"
-    st.write(a)
-    b=f"AI-Analyzed Medical Report: \n {st.session_state.response_model}"
-    st.write(b)
+    st.write(st.session_state.response_model)
     # Save Report Button
     if st.session_state.check:
         if st.button("Save Report", key="save_report"):
@@ -184,7 +185,7 @@ def show_home_page_doctor():
             st.session_state.report_data = {
                 "doctor_id": user_info.get("doctor_id"),
                 "title": report_name,
-                "content": content
+                "content": st.session_state.rapport_medical
             }
             response_report_sent = tws.create_report(st.session_state.report_data)
 
@@ -195,10 +196,13 @@ def show_home_page_doctor():
                 #Transform reports in text
                 text=""
                 for report in all_reports:
-                    chaine=f"report  of {report['title']} :{report['content']}"
+                    chaine=f"report's content of {report['title']} :{report['content']}"
                     text+=chaine
             
                 st.session_state.context=text
+                user_query0="Hello Gpt:)"
+                result0 = tws.get_response_model(st.session_state.context, user_query0)
+
                 
             if response_report_sent:
                 st.toast("Report saved successfully!")
@@ -247,7 +251,8 @@ def show_home_page_doctor():
                 # Generate AI response and display it
                 with chat_container:
                     with st.chat_message("AI"):
-                        result = tws.get_response_model(st.session_state.context, user_query)
+                        context1=""
+                        result = tws.get_response_model(context1, user_query)
                         st.session_state.chat_history.append(AIMessage(content=result))
                         st.markdown(result)
 
