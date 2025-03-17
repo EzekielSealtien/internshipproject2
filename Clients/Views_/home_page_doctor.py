@@ -221,7 +221,7 @@ def show_home_page_doctor():
             # Ensure chat history is initialized
             if "chat_history" not in st.session_state:
                 st.session_state.chat_history = [
-                    AIMessage(content="Hey there, I am Cassandra. How can I be of service to you?")
+                    AIMessage(content="Hey there, I am Cassandra. How can i help you?")
                 ]
 
             # Display conversation messages in a container
